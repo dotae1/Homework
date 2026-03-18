@@ -1,10 +1,8 @@
 package com.example.homework.contents.entity;
 
 import com.example.homework.contents.dto.UpdateContentRequestDTO;
-import com.example.homework.contents.dto.UpdateContentResponseDTO;
 import com.example.homework.global.BaseEntity;
 import com.example.homework.member.entity.Member;
-import com.example.homework.member.entity.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -65,18 +63,20 @@ public class Content extends BaseEntity {
         this.lastModifiedBy = member.getNickname();
     }
 
-    public void adminUpdate(UpdateContentRequestDTO requestDTO) {
+    public void adminUpdate(UpdateContentRequestDTO requestDTO, String nickname) {
         if(requestDTO.getTitle() != null) {
             this.title = requestDTO.getTitle();
         }
         if(requestDTO.getDescription() != null) {
             this.description = requestDTO.getDescription();
         }
-        this.lastModifiedBy = member.getNickname();
+        this.lastModifiedBy = nickname;
+
     }
 
     public void upViewCount() {
-        this.viewCount++;
+        this.viewCount+=1;
     }
+
 
 }

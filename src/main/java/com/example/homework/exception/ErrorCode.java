@@ -12,7 +12,8 @@ public enum ErrorCode {
     CONTENT_NOT_AUTH(HttpStatus.FORBIDDEN, "CONTENT-002","게시글 작성자가 아닙니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER-001", "회원을 찾을 수 없습니다."),
-    MEMBER_BAD_REQUEST(HttpStatus.BAD_REQUEST, "MEMBER-002", "회원의 잘못된 요청입니다.");
+    MEMBER_BAD_REQUEST(HttpStatus.BAD_REQUEST, "MEMBER-002", "회원의 잘못된 요청입니다."),
+    MEMBER_ROLE_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER-003", "회원의 권한을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;

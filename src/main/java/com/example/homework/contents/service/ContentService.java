@@ -1,17 +1,16 @@
 package com.example.homework.contents.service;
 
+import com.example.homework.contents.dto.*;
 import com.example.homework.exception.CustomException;
 import com.example.homework.exception.ErrorCode;
-import com.example.homework.contents.dto.CreateContentRequestDTO;
-import com.example.homework.contents.dto.CreateContentResponseDTO;
-import com.example.homework.contents.dto.UpdateContentRequestDTO;
-import com.example.homework.contents.dto.UpdateContentResponseDTO;
 import com.example.homework.contents.entity.Content;
 import com.example.homework.contents.repository.ContentRepository;
 import com.example.homework.member.entity.Member;
 import com.example.homework.member.entity.Role;
 import com.example.homework.validation.Validation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,8 +42,10 @@ public class ContentService {
             content = validation.contentValidation(requestDTO.getId(),  memberId);
             content.update(requestDTO);
         } else if(role == Role.ADMIN){
+            Member admin = validation.memberValidation(memberId);
+
             content = validation.contentFoundValidation(requestDTO.getId());
-            content.adminUpdate(requestDTO);
+            content.adminUpdate(requestDTO, admin.getNickname());
         } else {
             throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
         }
@@ -76,20 +77,40 @@ public class ContentService {
     }
 
     @Transactional(readOnly = true)
-    public void SearchContentList(Long memberId) {
+    public SearchContentListResponseDTO SearchContentList(Pageable pageable) {
 
-        //회원만 조회할 수 있다는 가정하의 설계
-        Member member = validation.memberValidation(memberId);
+        Page<SearchContentSummariesDTO> page =
+                contentRepository.findBySummeries(pageable);
+
+        return SearchContentListResponseDTO.of(
+                page.getContent()
+        );
 
 
 
     }
 
-    @Transactional(readOnly = true)
-    public void searchContent(Long memberId) {
+    @Transactional
+    public SearchContentDetailResponseDTO searchContent(Long contentId, Long memberId) {
 
         //회원만 조회할 수 있다는 가정하의 설계
         Member member = validation.memberValidation(memberId);
+
+        Content content = validation.contentFoundValidation(contentId);
+        //조회가 이루어지면 조회수 증가
+        content.upViewCount();
+
+        return  SearchContentDetailResponseDTO.from(
+                content.getId(),
+                content.getTitle(),
+                content.getDescription(),
+                content.getCreatedDate(),
+                content.getCreatedBy(),
+                content.getLastModifiedBy(),
+                content.getViewCount()
+        );
+
+
 
     }
 
