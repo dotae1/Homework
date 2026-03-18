@@ -24,7 +24,7 @@ public class Validation {
     }
 
     public Content contentValidation(Long contentId, Long memberId) {
-        Content content = contentRepository.findByIdAndMemberId(contentId, memberId)
+        Content content = contentRepository.findByIdAndMember_MemberId(contentId, memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.CONTENT_NOT_AUTH));
 
         return content;

@@ -19,7 +19,7 @@ public class SuccessResponseEntity<T> {
                 .status(s.getStatus())
                 .body(SuccessResponseEntity.<T>builder()
                         .status(s.getStatus().value())
-                        .name(s.getCode())
+                        .name(s.name())
                         .code(s.getCode())
                         .message(s.getMessage())
                         .data(data)

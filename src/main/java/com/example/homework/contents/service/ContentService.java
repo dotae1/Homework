@@ -40,9 +40,13 @@ public class ContentService {
 
         Content content = validation.contentValidation(requestDTO.getId(),  memberId);
 
-        UpdateContentResponseDTO responseDTO = content.Update(requestDTO);
+        content.update(requestDTO);
 
-        return responseDTO;
+        return UpdateContentResponseDTO.from(
+                content.getId(),
+                content.getTitle(),
+                content.getDescription()
+        );
     }
 
     @Transactional

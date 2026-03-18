@@ -30,7 +30,7 @@ public class ContentController {
 
     @PatchMapping("/{contentId}")
     public ResponseEntity<SuccessResponseEntity<UpdateContentResponseDTO>> updateContent(
-            @RequestBody UpdateContentRequestDTO requestDTO
+            @RequestBody @Valid UpdateContentRequestDTO requestDTO
     ) {
         Long memberId = 1L;
         UpdateContentResponseDTO responseDTO = contentService.updateContent(requestDTO, memberId);

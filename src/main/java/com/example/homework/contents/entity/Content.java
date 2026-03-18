@@ -45,13 +45,14 @@ public class Content extends BaseEntity {
         this.description = content;
         this.lastModifiedBy = member.getNickname();
         this.createdBy = member.getNickname();
+        this.member = member;
     }
 
     public static Content from(String title, String content, Member member) {
         return new Content(title, content, member);
     }
 
-    public UpdateContentResponseDTO Update(UpdateContentRequestDTO requestDTO) {
+    public void update(UpdateContentRequestDTO requestDTO) {
         if(requestDTO.getTitle() != null) {
             this.title = requestDTO.getTitle();
         }
