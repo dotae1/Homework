@@ -9,7 +9,7 @@ import com.example.homework.contents.dto.UpdateContentResponseDTO;
 import com.example.homework.contents.entity.Content;
 import com.example.homework.contents.repository.ContentRepository;
 import com.example.homework.member.entity.Member;
-import com.example.homework.member.repository.MemberRepository;
+import com.example.homework.member.entity.Role;
 import com.example.homework.validation.Validation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ContentService {
 
     private final ContentRepository contentRepository;
-    private final MemberRepository memberRepository;
     private final Validation validation;
 
     @Transactional
@@ -38,9 +37,17 @@ public class ContentService {
     @Transactional
     public UpdateContentResponseDTO updateContent(UpdateContentRequestDTO requestDTO, Long memberId) {
 
-        Content content = validation.contentValidation(requestDTO.getId(),  memberId);
-
-        content.update(requestDTO);
+        Role role = validation.memberRoleValidation(memberId);
+        Content content;
+        if(role == Role.USER){
+            content = validation.contentValidation(requestDTO.getId(),  memberId);
+            content.update(requestDTO);
+        } else if(role == Role.ADMIN){
+            content = validation.contentFoundValidation(requestDTO.getId());
+            content.adminUpdate(requestDTO);
+        } else {
+            throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
+        }
 
         return UpdateContentResponseDTO.from(
                 content.getId(),
@@ -52,20 +59,37 @@ public class ContentService {
     @Transactional
     public Long deleteContent(Long contentId ,Long memberId) {
 
-        Content content = validation.contentValidation(contentId,  memberId);
+        Role role = validation.memberRoleValidation(memberId);
+        Content content;
 
-        contentRepository.delete(content);
+        if(role == Role.USER){
+            content = validation.contentValidation(contentId, memberId);
+            contentRepository.delete(content);
+        } else if(role == Role.ADMIN){
+            content = validation.contentFoundValidation(contentId);
+            contentRepository.delete(content);
+        } else {
+            throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
+        }
 
         return contentId;
     }
 
     @Transactional(readOnly = true)
-    public void SearchContentList() {
+    public void SearchContentList(Long memberId) {
+
+        //회원만 조회할 수 있다는 가정하의 설계
+        Member member = validation.memberValidation(memberId);
+
+
 
     }
 
     @Transactional(readOnly = true)
     public void searchContent(Long memberId) {
+
+        //회원만 조회할 수 있다는 가정하의 설계
+        Member member = validation.memberValidation(memberId);
 
     }
 

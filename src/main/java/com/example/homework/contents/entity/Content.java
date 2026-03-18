@@ -4,7 +4,9 @@ import com.example.homework.contents.dto.UpdateContentRequestDTO;
 import com.example.homework.contents.dto.UpdateContentResponseDTO;
 import com.example.homework.global.BaseEntity;
 import com.example.homework.member.entity.Member;
+import com.example.homework.member.entity.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,8 @@ public class Content extends BaseEntity {
     @Column(name = "view_count")
     private Integer viewCount = 0;
 
-    @Column(name = "last_modified_by", nullable = false)
+    @Column(name = "last_modified_by")
+    @Size(max = 50, message = "50자 이내어야 합니다.")
     private String lastModifiedBy;
 
     @Column(name = "created_by", nullable = false)
@@ -59,6 +62,21 @@ public class Content extends BaseEntity {
         if(requestDTO.getDescription() != null) {
             this.description = requestDTO.getDescription();
         }
+        this.lastModifiedBy = member.getNickname();
+    }
+
+    public void adminUpdate(UpdateContentRequestDTO requestDTO) {
+        if(requestDTO.getTitle() != null) {
+            this.title = requestDTO.getTitle();
+        }
+        if(requestDTO.getDescription() != null) {
+            this.description = requestDTO.getDescription();
+        }
+        this.lastModifiedBy = member.getNickname();
+    }
+
+    public void upViewCount() {
+        this.viewCount++;
     }
 
 }

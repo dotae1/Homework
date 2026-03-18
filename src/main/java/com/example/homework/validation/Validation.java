@@ -5,6 +5,7 @@ import com.example.homework.contents.repository.ContentRepository;
 import com.example.homework.exception.CustomException;
 import com.example.homework.exception.ErrorCode;
 import com.example.homework.member.entity.Member;
+import com.example.homework.member.entity.Role;
 import com.example.homework.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,4 +30,17 @@ public class Validation {
 
         return content;
     }
+
+    public Content contentFoundValidation(Long contentId) {
+        Content content = contentRepository.findById(contentId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CONTENT_NOT_FOUND));
+        return content;
+    }
+
+    public Role memberRoleValidation(Long memberId) {
+        Member member = memberRepository.findByMemberRole(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        return member.getRole();
+    }
+
 }
