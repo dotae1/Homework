@@ -20,13 +20,13 @@ public class Content extends BaseEntity {
     @Column(name ="id", nullable = false)
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "view_count")
+    @Column(name = "view_count", nullable = false)
     private Integer viewCount = 0;
 
     @Column(name = "last_modified_by")
