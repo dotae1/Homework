@@ -26,3 +26,10 @@
 </ul>
 
 <h4>Swagger, Postman을 통한 로그아웃 시 쿠키 삭제 X, 개발자도구를 통한 삭제 필요</h4>
+
+<h4>로그인 구현 방식</h4>
+<div>
+  <h5>JWT 토큰을 사용하여 구현방식 = H2 데이터베이스에 Token 무제한 생성 ( Redis 추가 도입 필요 )</h5>
+  <h5>Session = 세션메모리에 사용자 증가 시 세션데이터로 인한 부하가 생길 여지가 존재하지만, 현재 환경에서 가장 구현하기 적합하다고 생각했습니다.</h5>
+  <h5>Cookie = SessionId, Memory = SessionData 방식으로 활용</h5>
+</div>
