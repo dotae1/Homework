@@ -78,7 +78,7 @@ public class ContentService {
     public SearchContentListResponseDTO SearchContentList(Pageable pageable) {
 
         Page<SearchContentSummariesDTO> page =
-                contentRepository.findBySummeries(pageable);
+                contentRepository.findBySummaries(pageable);
 
         return SearchContentListResponseDTO.of(
                 page.getContent()

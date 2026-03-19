@@ -33,7 +33,7 @@ public class ContentController {
 
     }
 
-    @PatchMapping("/{contentId}")
+    @PatchMapping("/patch")
     public ResponseEntity<SuccessResponseEntity<UpdateContentResponseDTO>> updateContent(
             @RequestBody @Valid UpdateContentRequestDTO requestDTO,
             @AuthenticationPrincipal UserDetails userDetails
@@ -43,10 +43,12 @@ public class ContentController {
     }
 
     @DeleteMapping("/{contentId}")
-    public Long deleteContent(
+    public ResponseEntity<SuccessResponseEntity<Long>> deleteContent(
             @PathVariable Long contentId,
             @AuthenticationPrincipal UserDetails userDetails) {
-        return contentService.deleteContent(contentId, userDetails.getUsername());
+        Long deletedId = contentService.deleteContent(contentId, userDetails.getUsername());
+
+        return SuccessResponseEntity.toResponseEntity(SuccessCode.CONTENT_SUCCESS_DELETE,deletedId);
     }
 
     @GetMapping("/search")

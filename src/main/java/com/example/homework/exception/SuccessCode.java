@@ -12,6 +12,7 @@ public enum SuccessCode {
     CONTENT_UPDATED(HttpStatus.OK, "CONTENT-002", "콘텐츠 수정에 성공했습니다."),
     CONTENT_LIST_SUCCESS_SEARCH(HttpStatus.OK, "CONTENT-003", "콘텐츠 목록 조회에 성공했습니다."),
     CONTENT_SUCCESS_SEARCH(HttpStatus.OK, "CONTENT-004", "콘텐츠 상세 조회를 성공했습니다."),
+    CONTENT_SUCCESS_DELETE(HttpStatus.OK, "CONTENT-005", "콘텐츠 삭제에 성공했습니다."),
 
     JOIN_SUCCESS(HttpStatus.OK, "AUTH-001", "회원가입이 성공적으로 완료되었습니다."),
     LOGIN_SUCCESS(HttpStatus.OK, "AUTH-002", "로그인이 성공적으로 완료되었습니다.");

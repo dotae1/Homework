@@ -26,12 +26,12 @@ public class MemberService implements UserDetailsService {
     public JoinResponseDTO join(JoinRequestDTO requestDTO){
 
         validation.existLoginIdValidation(requestDTO.getId());
-        validation.existNicknameValidation(requestDTO.getNinkname());
+        validation.existNicknameValidation(requestDTO.getNickname());
 
         Member member = Member.create(
                 requestDTO.getId(),
                 bCryptPasswordEncoder.encode(requestDTO.getPassword()),
-                requestDTO.getNinkname(),
+                requestDTO.getNickname(),
                 Role.USER
         );
 

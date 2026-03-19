@@ -28,7 +28,7 @@ public class Validation {
     }
 
     /**
-     * 콘텐츠 작성자와 memberId가 맞는지 검증 로직
+     * 콘텐츠 작성자와 loginId가 맞는지 검증 로직
      */
     public Content contentValidation(Long contentId, String loginId) {
         Content content = contentRepository.findByIdAndMember_LoginId(contentId, loginId)
@@ -56,7 +56,7 @@ public class Validation {
     }
 
     public String existNicknameValidation(String nickname) {
-        if(memberRepository.existByNickname(nickname)) {
+        if(memberRepository.existsByNickname(nickname)) {
             throw new CustomException(ErrorCode.NICKNAME_ALREADY_EXIST);
         }
         return nickname;

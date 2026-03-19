@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .logoutSuccessHandler((request, response, authentication) -> {
                             response.setStatus(HttpServletResponse.SC_OK);
                             response.setContentType("application/json;charset=UTF-8");
-                            response.getWriter().write("{\"message\": \"성공적으로 로그아웃 되었습니다.\"}");
+                            response.getWriter().write("{\"성공\": \"성공적으로 로그아웃 되었습니다.\"}");
                         })));
         http
                 .cors((auth) -> auth.disable());
@@ -56,7 +56,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType("application/json;charset=UTF-8");
-                            response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                            response.getWriter().write("{\"에러\": \"Unauthorized\"}");
                         }));
         http.sessionManagement((session) -> session
                 .maximumSessions(1)

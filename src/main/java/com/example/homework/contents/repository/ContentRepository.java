@@ -16,6 +16,6 @@ public interface ContentRepository  extends JpaRepository<Content, Long> {
 
     @Query("select new com.example.homework.contents.dto.SearchContentSummariesDTO(c.id, c.title, c.description, c.viewCount, c.createdBy, c.createdDate) " +
             "from Content c left join c.member m")
-    Page<SearchContentSummariesDTO> findBySummeries(Pageable pageable);
+    Page<SearchContentSummariesDTO> findBySummaries(Pageable pageable);
 
 }
