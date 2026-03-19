@@ -13,7 +13,8 @@ public enum ErrorCode {
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER-001", "회원을 찾을 수 없습니다."),
     MEMBER_BAD_REQUEST(HttpStatus.BAD_REQUEST, "MEMBER-002", "회원의 잘못된 요청입니다."),
-    MEMBER_ROLE_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER-003", "회원의 권한을 찾을 수 없습니다.");
+    MEMBER_ROLE_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER-003", "회원의 권한을 찾을 수 없습니다."),
+    MEMBER_ALRREADY_EXIST(HttpStatus.BAD_REQUEST, "AUTH- 001", "이미 존재하는 아이디입니다. 다른 아이디를 사용해주세요");
 
     private final HttpStatus status;
     private final String code;

@@ -13,4 +13,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m.role from Member m WHERE m.memberId = :memberId")
     Optional<Role> findRoleById(Long memberId);
 
+    boolean existsByLoginId(String loginId);
+
+
 }
