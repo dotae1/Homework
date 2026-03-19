@@ -77,6 +77,4 @@ public class Content extends BaseEntity {
     public void upViewCount() {
         this.viewCount+=1;
     }
-
-
 }

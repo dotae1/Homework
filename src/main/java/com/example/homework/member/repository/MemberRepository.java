@@ -9,11 +9,17 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long> {
-    @Query("select m.role from Member m WHERE m.memberId = :memberId")
-    Optional<Role> findRoleById(Long memberId);
+public interface MemberRepository extends JpaRepository<Member, String> {
+
+    @Query("select m.role from Member m WHERE m.loginId = :loginId")
+    Optional<Role> findRoleById(String loginId);
 
     boolean existsByLoginId(String loginId);
+
+    Optional<Member> findByLoginId(String loginId);
+
+    boolean existByNickname(String nickname);
+
 
 
 }

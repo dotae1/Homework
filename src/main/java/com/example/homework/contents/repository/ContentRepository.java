@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface ContentRepository  extends JpaRepository<Content, Long> {
-    Optional<Content> findByIdAndMember_MemberId(Long id, Long memeberId);
+    Optional<Content> findByIdAndMember_LoginId(Long id, String loginId);
 
     @Query("select new com.example.homework.contents.dto.SearchContentSummariesDTO(c.id, c.title, c.description, c.viewCount, c.createdBy, c.createdDate) " +
             "from Content c left join c.member m")

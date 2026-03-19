@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,28 +23,30 @@ public class ContentController {
     private final ContentService contentService;
 
     @PostMapping
-    public ResponseEntity<SuccessResponseEntity<CreateContentResponseDTO>> createContent(
-            @RequestBody @Valid CreateContentRequestDTO requestDTO
+    public ResponseEntity<?> createContent(
+            @RequestBody @Valid CreateContentRequestDTO requestDTO,
+            @AuthenticationPrincipal UserDetails userDetails
             ) {
-        Long memberId = 1L;
-        CreateContentResponseDTO responseDTO = contentService.createContent(requestDTO, memberId);
+
+        CreateContentResponseDTO responseDTO = contentService.createContent(requestDTO, userDetails.getUsername());
         return SuccessResponseEntity.toResponseEntity(SuccessCode.CONTENT_CREATED, responseDTO);
+
     }
 
     @PatchMapping("/{contentId}")
     public ResponseEntity<SuccessResponseEntity<UpdateContentResponseDTO>> updateContent(
-            @RequestBody @Valid UpdateContentRequestDTO requestDTO
+            @RequestBody @Valid UpdateContentRequestDTO requestDTO,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
-        Long memberId = 2L;
-        UpdateContentResponseDTO responseDTO = contentService.updateContent(requestDTO, memberId);
+        UpdateContentResponseDTO responseDTO = contentService.updateContent(requestDTO, userDetails.getUsername());
         return SuccessResponseEntity.toResponseEntity(SuccessCode.CONTENT_UPDATED, responseDTO);
     }
 
     @DeleteMapping("/{contentId}")
     public Long deleteContent(
-            @PathVariable Long contentId) {
-        Long memberId = 2L;
-        return contentService.deleteContent(contentId, memberId);
+            @PathVariable Long contentId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return contentService.deleteContent(contentId, userDetails.getUsername());
     }
 
     @GetMapping("/search")
@@ -56,10 +60,10 @@ public class ContentController {
 
     @GetMapping("/{contentId}")
     public ResponseEntity<SuccessResponseEntity<SearchContentDetailResponseDTO>> contentDetail (
-            @PathVariable Long contentId
+            @PathVariable Long contentId,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
-        Long memberId = 1L;
-        SearchContentDetailResponseDTO responseDTO = contentService.searchContent(contentId, memberId);
+        SearchContentDetailResponseDTO responseDTO = contentService.searchContent(contentId, userDetails.getUsername());
 
         return SuccessResponseEntity.toResponseEntity(SuccessCode.CONTENT_SUCCESS_SEARCH, responseDTO);
     }

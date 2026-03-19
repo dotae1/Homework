@@ -22,27 +22,25 @@ public class ContentService {
     private final Validation validation;
 
     @Transactional
-    public CreateContentResponseDTO createContent(CreateContentRequestDTO requestDTO, Long memberId){
-
-        Member member = validation.memberValidation(memberId);
+    public CreateContentResponseDTO createContent(CreateContentRequestDTO requestDTO, String loginId){
+        Member member = validation.memberValidation(loginId);
 
         Content content = Content.from(requestDTO.getTitle(), requestDTO.getDescription(), member);
         Content saveContent = contentRepository.save(content);
 
         return CreateContentResponseDTO.from(saveContent);
-
     }
 
     @Transactional
-    public UpdateContentResponseDTO updateContent(UpdateContentRequestDTO requestDTO, Long memberId) {
+    public UpdateContentResponseDTO updateContent(UpdateContentRequestDTO requestDTO, String loginId) {
 
-        Role role = validation.memberRoleValidation(memberId);
+        Role role = validation.memberRoleValidation(loginId);
         Content content;
         if(role == Role.USER){
-            content = validation.contentValidation(requestDTO.getId(),  memberId);
+            content = validation.contentValidation(requestDTO.getId(),  loginId);
             content.update(requestDTO);
         } else if(role == Role.ADMIN){
-            Member admin = validation.memberValidation(memberId);
+            Member admin = validation.memberValidation(loginId);
 
             content = validation.contentFoundValidation(requestDTO.getId());
             content.adminUpdate(requestDTO, admin.getNickname());
@@ -58,13 +56,13 @@ public class ContentService {
     }
 
     @Transactional
-    public Long deleteContent(Long contentId ,Long memberId) {
+    public Long deleteContent(Long contentId ,String loginId) {
 
-        Role role = validation.memberRoleValidation(memberId);
+        Role role = validation.memberRoleValidation(loginId);
         Content content;
 
         if(role == Role.USER){
-            content = validation.contentValidation(contentId, memberId);
+            content = validation.contentValidation(contentId, loginId);
             contentRepository.delete(content);
         } else if(role == Role.ADMIN){
             content = validation.contentFoundValidation(contentId);
@@ -91,10 +89,10 @@ public class ContentService {
     }
 
     @Transactional
-    public SearchContentDetailResponseDTO searchContent(Long contentId, Long memberId) {
+    public SearchContentDetailResponseDTO searchContent(Long contentId, String loginId) {
 
         //회원만 조회할 수 있다는 가정하의 설계
-        Member member = validation.memberValidation(memberId);
+        Member member = validation.memberValidation(loginId);
 
         Content content = validation.contentFoundValidation(contentId);
         //조회가 이루어지면 조회수 증가

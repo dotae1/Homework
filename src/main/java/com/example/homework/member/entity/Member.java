@@ -41,6 +41,11 @@ public class Member extends BaseEntity {
         return new Member(id, password, nickname, role);
     }
 
+    // TEST용
+//    public void changeRole(Role newRole) {
+//        this.role = newRole;
+//    }
+
 
 
 }
