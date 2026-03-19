@@ -42,9 +42,9 @@ public class Member extends BaseEntity {
     }
 
     // TEST용
-//    public void changeRole(Role newRole) {
-//        this.role = newRole;
-//    }
+    public void changeRole(Role newRole) {
+        this.role = newRole;
+    }
 
 
 

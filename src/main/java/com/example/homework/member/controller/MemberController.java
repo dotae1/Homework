@@ -5,6 +5,7 @@ import com.example.homework.exception.SuccessResponseEntity;
 import com.example.homework.member.dto.JoinRequestDTO;
 import com.example.homework.member.dto.JoinResponseDTO;
 import com.example.homework.member.dto.LoginRequestDTO;
+import com.example.homework.member.dto.UpdateRoleRequestDTO;
 import com.example.homework.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,8 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,12 +75,12 @@ public class MemberController {
     }
 
     //TEST용
-//    @PostMapping("/change")
-//    public ResponseEntity<?> changeRole (
-//            @RequestBody UpdateRoleRequestDTO requestDTO,
-//            @AuthenticationPrincipal UserDetails userDetails
-//            ) {
-//        memberService.updateRole(userDetails.getUsername(), requestDTO.getRole());
-//        return ResponseEntity.ok(SuccessCode.LOGIN_SUCCESS);
-//    }
+    @PostMapping("/change")
+    public ResponseEntity<?> changeRole (
+            @RequestBody UpdateRoleRequestDTO requestDTO,
+            @AuthenticationPrincipal UserDetails userDetails
+            ) {
+        memberService.updateRole(userDetails.getUsername(), requestDTO.getRole());
+        return ResponseEntity.ok(SuccessCode.LOGIN_SUCCESS);
+    }
 }

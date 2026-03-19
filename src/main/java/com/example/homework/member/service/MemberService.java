@@ -53,10 +53,10 @@ public class MemberService implements UserDetailsService {
     }
 
     // TEST용
-//    @Transactional
-//    public void updateRole(String loginId, Role newRole) {
-//        Member member = validation.memberValidation(loginId);
-//
-//        member.changeRole(newRole);
-//    }
+    @Transactional
+    public void updateRole(String loginId, Role newRole) {
+        Member member = validation.memberValidation(loginId);
+
+        member.changeRole(newRole);
+    }
 }
